@@ -1,9 +1,11 @@
 package com.alexperezbuildthatapp.kotlinyoutube
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.video_row.view.*
 
@@ -34,7 +36,7 @@ class MainAdapter(val homeFeed: HomeFeed):RecyclerView.Adapter<CustomViewHolder>
         val video =  homeFeed.videos[position]
         holder?.view?.textView_videoTitle?.text = video.name
 
-        holder?.view?.textView_channelName?.text = video.channel.name + " "
+        holder?.view?.textView_channelName?.text = video.channel.name
 
         val thumbnailImageView = holder?.view?.imageView_videoThumbnail
         Picasso.with(holder?.view?.context).load(video.imageUrl).into(thumbnailImageView)
@@ -47,5 +49,14 @@ class MainAdapter(val homeFeed: HomeFeed):RecyclerView.Adapter<CustomViewHolder>
 
 //Using this class to call a custom view to show in our application
 class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view){
+    //Init, used to initiate a reaction with the view
+    init {
+        view.setOnClickListener{
+            val intent = Intent(view.context, CourseDetailActivity::class.java)
+
+            view.context.startActivity(intent)
+            Toast.makeText(view.context, "Clicked on Video", Toast.LENGTH_LONG).show()
+        }
+    }
 
 }
