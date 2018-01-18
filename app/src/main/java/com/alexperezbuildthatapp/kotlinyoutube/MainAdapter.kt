@@ -43,16 +43,28 @@ class MainAdapter(val homeFeed: HomeFeed):RecyclerView.Adapter<CustomViewHolder>
 
         val channelProfileView = holder?.view?.imageView_channelProfile
         Picasso.with(holder?.view?.context).load(video.channel.profileImageUrl).into(channelProfileView)
+
+        holder?.video = video
     }
 
 }
 
 //Using this class to call a custom view to show in our application
-class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view){
+class CustomViewHolder(val view: View, var video: Video? = null): RecyclerView.ViewHolder(view){
+
+    companion object {
+        val VIDEO_TITLE_KEY = "VIDEO_TITLE"
+        val VIDEO_ID_KEY = "VIDEO_ID"
+
+    }
+
     //Init, used to initiate a reaction with the view
     init {
         view.setOnClickListener{
             val intent = Intent(view.context, CourseDetailActivity::class.java)
+
+            intent.putExtra(VIDEO_TITLE_KEY, video?.name)
+            intent.putExtra(VIDEO_ID_KEY, video?.id)
 
             view.context.startActivity(intent)
             Toast.makeText(view.context, "Clicked on Video", Toast.LENGTH_LONG).show()
